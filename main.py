@@ -42,8 +42,8 @@ def custom_mutation(offspring, ga_instance):
 # Parâmetros do algoritmo genético
 # num_generations = int(len(numbers)*(40/100))
 num_generations = 1000
-num_parents_mating = 4
-sol_per_pop = 5
+num_parents_mating = 5
+sol_per_pop = 10
 
 num_genes = len(numbers)
 
@@ -82,11 +82,13 @@ subset_b = np.array(numbers)[solution == 0]
 # print(numbers)
 # print(subset_a)
 # print(subset_b)
+print("\n\n\n\n\n")
 print("Soma do Subconjunto A:", np.sum(subset_a))
 print("Soma do Subconjunto B:", np.sum(subset_b))
 print(f"Fitness da melhor solução: {solution_fitness:.4f}")
 print(f"Melhor valor de fitness encontrado apos {ga_instance.best_solution_generation} geracoes.")
 print(f"Tempo para encontrar a melhor solução: {execution_time:.2f} segundos")
+
 print("\n\n\n\n\n")
 # Plot da convergência
 ga_instance.plot_fitness()
@@ -94,6 +96,7 @@ ga_instance.plot_fitness()
 
 
 
+ga_instance.plot_new_solution_rate(plot_type="bar")
 
 
 # # Visualizando o melhor indivíduo
