@@ -16,7 +16,7 @@ if select == 0:
     numbers = list(map(int, input_numbers.split()))
 elif select == 1:
     # Geração automática
-    tamanho_lista = int(input("Digite o tamanho do conjunto: (int value)"))
+    tamanho_lista = int(input("Digite o tamanho do conjunto: (int value): "))
     limite_inferior = 1
     limite_superior = 100
     numbers = [random.randint(limite_inferior, limite_superior) for _ in range(tamanho_lista)]
@@ -29,7 +29,7 @@ def fitness_func(ga_instance, solution, solution_idx):
     subset_a = np.array(numbers)[solution == 1]
     subset_b = np.array(numbers)[solution == 0]
     sum_diff = abs(np.sum(subset_a) - np.sum(subset_b))
-    fitness = 1.0 / (1.0 + sum_diff * 0.1)
+    fitness = 1.0 / (1.0 + sum_diff * 0.05)
     return fitness
 
 # Função de mutação personalizada
@@ -40,11 +40,9 @@ def custom_mutation(offspring, ga_instance):
     return offspring
 
 # Parâmetros do algoritmo genético
-# num_generations = int(len(numbers)*(40/100))
-num_generations = 1000
+num_generations = min(max(50, int(len(numbers)*(40/100))), 1000)
 num_parents_mating = 5
 sol_per_pop = 10
-
 num_genes = len(numbers)
 
 # Configuração do algoritmo genético
@@ -63,14 +61,14 @@ ga_instance = pygad.GA(num_generations=num_generations,
                        save_solutions=True,
                        save_best_solutions=True,
                        gene_type=int,
-                       stop_criteria=["reach_0.90"])  # Interromper ao atingir fitness < 0.0001)
-
+                       stop_criteria=["reach_1"])  
 
 start_time = time.time()
+
 # Executa o algoritmo
 ga_instance.run()
-end_time = time.time()
 
+end_time = time.time()
 execution_time = end_time - start_time
 
 
@@ -79,26 +77,37 @@ solution, solution_fitness, solution_idx = ga_instance.best_solution()
 subset_a = np.array(numbers)[solution == 1]
 subset_b = np.array(numbers)[solution == 0]
 
-# print(numbers)
-# print(subset_a)
-# print(subset_b)
+np.set_printoptions(threshold=np.inf)
+
+
 print("\n\n\n\n\n")
+if select == 1:
+    printar = (input("Deseja visualizar o conjunto S gerado e os subconjuntos A e B identificados? (y / n): "))
+elif select == 0:
+    printar = (input("Deseja visualizar os subconjuntos A e B identificados? (y / n): "))
+
+if printar == 'y' or printar == 'Y':
+    print(f"Conjunto S: {np.array(numbers)}\n")
+    print(f"Conjunto A: {subset_a}\n")
+    print(f"Conjunto B: {subset_b}\n")
+
+print("\n")
 print("Soma do Subconjunto A:", np.sum(subset_a))
 print("Soma do Subconjunto B:", np.sum(subset_b))
 print(f"Fitness da melhor solução: {solution_fitness:.4f}")
-print(f"Melhor valor de fitness encontrado apos {ga_instance.best_solution_generation} geracoes.")
-print(f"Tempo para encontrar a melhor solução: {execution_time:.2f} segundos")
+print(f"Numero máximo de Gerações: {num_generations}")
+print(f"Melhor valor de fitness encontrado apos {ga_instance.best_solution_generation} geracoes.\n")
+print("Melhor solução encontrada:")
+print(solution)
+print(f"Tempo para encontrar a melhor solução: {execution_time:.8f} segundos")
+print("Operação encerrada")
 
-print("\n\n\n\n\n")
 # Plot da convergência
 ga_instance.plot_fitness()
 
 
 
-
-ga_instance.plot_new_solution_rate(plot_type="bar")
-
-
+#ga_instance.plot_new_solution_rate(plot_type="bar")
 # # Visualizando o melhor indivíduo
 # plt.figure(figsize=(10, 3))
 # plt.scatter(range(len(solution)), solution)
@@ -107,8 +116,6 @@ ga_instance.plot_new_solution_rate(plot_type="bar")
 # plt.xticks(range(len(solution)))
 # plt.ylabel("Valor do Gene (0 ou 1)")
 # plt.yticks([0, 1]) 
-# #plt.legend(title=f"Conjunto original: {numbers[:10]}{'...' if len(numbers) > 10 else ''}")
+# plt.legend(title=f"Conjunto original: {numbers[:10]}{'...' if len(numbers) > 10 else ''}")
 # plt.legend(title=f"Conjunto original: {numbers}")
-
-
 # plt.show()
