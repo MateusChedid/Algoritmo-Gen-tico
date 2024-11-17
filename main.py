@@ -81,41 +81,24 @@ np.set_printoptions(threshold=np.inf)
 
 
 print("\n\n\n\n\n")
-if select == 1:
-    printar = (input("Deseja visualizar o conjunto S gerado e os subconjuntos A e B identificados? (y / n): "))
-elif select == 0:
-    printar = (input("Deseja visualizar os subconjuntos A e B identificados? (y / n): "))
+print(f"Conjunto S: {np.array(numbers)}\n")
+print(f"Conjunto A: {subset_a}\n")
+print(f"Conjunto B: {subset_b}\n")
+print("\n")
 
-if printar == 'y' or printar == 'Y':
-    print(f"Conjunto S: {np.array(numbers)}\n")
-    print(f"Conjunto A: {subset_a}\n")
-    print(f"Conjunto B: {subset_b}\n")
-
+print("Melhor solução encontrada:")
+print(solution)
 print("\n")
 print("Soma do Subconjunto A:", np.sum(subset_a))
 print("Soma do Subconjunto B:", np.sum(subset_b))
 print(f"Fitness da melhor solução: {solution_fitness:.4f}")
 print(f"Numero máximo de Gerações: {num_generations}")
-print(f"Melhor valor de fitness encontrado apos {ga_instance.best_solution_generation} geracoes.\n")
-print("Melhor solução encontrada:")
-print(solution)
+print(f"Melhor valor de fitness encontrado apos {ga_instance.best_solution_generation} geracoes.")
 print(f"Tempo para encontrar a melhor solução: {execution_time:.8f} segundos")
+print("\n")
 print("Operação encerrada")
+print("\n")
 
 # Plot da convergência
 ga_instance.plot_fitness()
 
-
-
-#ga_instance.plot_new_solution_rate(plot_type="bar")
-# # Visualizando o melhor indivíduo
-# plt.figure(figsize=(10, 3))
-# plt.scatter(range(len(solution)), solution)
-# plt.title("Distribuição de Genes do Melhor Indivíduo")
-# plt.xlabel("Índice do Gene")
-# plt.xticks(range(len(solution)))
-# plt.ylabel("Valor do Gene (0 ou 1)")
-# plt.yticks([0, 1]) 
-# plt.legend(title=f"Conjunto original: {numbers[:10]}{'...' if len(numbers) > 10 else ''}")
-# plt.legend(title=f"Conjunto original: {numbers}")
-# plt.show()
